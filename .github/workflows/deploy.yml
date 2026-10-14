@@ -17,6 +17,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terrand-webpage-handler
     steps:
       - uses: actions/checkout@v5
 
@@ -24,17 +27,18 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: terrand-webpage-handler/package-lock.json
 
       - run: npm ci
       - run: npm run build
         env:
-          VITE_BASE_URL: ${{secrets.VITE_BASE_URL}}
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: ./dist       
+          path: terrand-webpage-handler/dist
 
   deploy:
     needs: build
