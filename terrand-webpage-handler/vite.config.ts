@@ -7,6 +7,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    // GitHub Pages sirve en /<repo>/, así que las rutas de assets deben ser relativas
+    base: './',
     plugins: [react(), tailwindcss()],
     server: {
       proxy: {
